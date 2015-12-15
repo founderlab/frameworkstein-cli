@@ -11,6 +11,10 @@
     "url": "https://github.com/gwilymhumphreys"
   },
   "license": "MIT",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/founderlab/fl-cli"
+  },
   "scripts": {
     "start": "./src/index.js",
     "prepublish": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
