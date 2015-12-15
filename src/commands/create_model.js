@@ -10,7 +10,7 @@ import createServerController from '../templates/server/controller'
 import createSharedModel from '../templates/shared/model'
 import createSharedSchema from '../templates/shared/schema'
 
-export default function createModel(_options) {
+export default function createModel(_options, callback) {
   const options = {
     plural: inflection.pluralize(_options.name),
     class_name: inflection.classify(_options.name),
@@ -55,8 +55,6 @@ export default function createModel(_options) {
     })
   })
 
-  queue.await(err => {
-    if (err) console.log(chalk.red(err))
-  })
+  queue.await(callback)
 
 }
