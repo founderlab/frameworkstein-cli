@@ -7,4 +7,5 @@
 #### Usage:
 
 `npm i fl-cli`
+
 `fl add_model model_name`
