@@ -20,15 +20,15 @@ export default function createModel(_options, callback) {
 
   const output = {
     server_model: {
-      path: path.join(options.root, `server/models/${options.name}.js`),
+      path: path.join(options.root, `server/models/${options.class_name}.js`),
       content: createServerModel(options),
     },
     server_controller: {
-      path: path.join(options.root, `server/api/controllers/${options.plural}.js`),
+      path: path.join(options.root, `server/api/controllers/${options.class_plural}.js`),
       content: createServerController(options),
     },
     shared_model: {
-      path: path.join(options.root, `shared/models/${options.name}.js`),
+      path: path.join(options.root, `shared/models/${options.class_name}.js`),
       content: createSharedModel(options),
     },
     shared_schema: {
