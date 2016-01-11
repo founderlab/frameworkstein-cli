@@ -28,7 +28,7 @@
     "inflection": "^1.8.0",
     "lodash": "^3.10.1",
     "mkdirp": "^0.5.1",
-    "node-git": "0.0.0",
+    "nodegit": "^0.7.0",
     "queue-async": "^1.0.7"
   },
   "devDependencies": {

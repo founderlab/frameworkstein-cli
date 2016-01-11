@@ -4,6 +4,7 @@ import fs from 'fs'
 import path from 'path'
 import Queue from 'queue-async'
 import inflection from 'inflection'
+import NodeGit from 'nodegit'
 
 const DEFAULT_NAME = 'FounderLab_replaceme'
 const BASE_REPO_URL = 'git@bitbucket.org:founderlab/fl-base-webapp.git'
@@ -22,14 +23,24 @@ export default function newApp(_options, callback) {
     safe_name: _options.name.replace('.', '_'),       // for database urls that may not like the periods (mongo)
     ..._options,
   }
-
-  const app_path = path.join(root, options.name)
-
-  const queue = new Queue()
+  const app_path = path.join(options.root, options.name)
+  const queue = new Queue(1)
 
   queue.defer(callback => {
-    const clone = require('nodegit').Clone.clone
-    clone(BASE_REPO_URL, app_path)
+    const clone = NodeGit.Clone.clone
+    const git_opts = {
+      fetchOpts: {
+        callbacks: {
+          certificateCheck: () => {
+            return 1
+          },
+          credentials: (url, username) => {
+            return NodeGit.Cred.sshKeyFromAgent(username)
+          },
+        },
+      },
+    }
+    clone(BASE_REPO_URL, app_path, git_opts)
       .then(callback)
       .catch(err => callback(err))
   })
