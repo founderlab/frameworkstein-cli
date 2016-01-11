@@ -28,7 +28,22 @@ program
     }
 
     console.log(`Creating model ${chalk.green(name)} with options`, options)
-    require('./commands/create_model')(options, err => {
+    require('./commands/createModel')(options, err => {
+      if (err) return console.log(chalk.red(err.message))
+      console.log(chalk.green('done'))
+    })
+  })
+
+program
+  .command('new <name>')
+  .description('Create a new app')
+  .option('-t, --type', 'Type')
+  .action(name => {
+
+    const options = {name, root: process.cwd(), force: program.force, verbose: program.verbose}
+
+    console.log(`Creating new app ${chalk.green(name)} with options`, options)
+    require('./commands/newApp')(options, err => {
       if (err) return console.log(chalk.red(err.message))
       console.log(chalk.green('done'))
     })

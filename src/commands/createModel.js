@@ -1,7 +1,7 @@
 import _ from 'lodash' // eslint-disable-line
+import chalk from 'chalk' // eslint-disable-line
 import fs from 'fs'
 import path from 'path'
-import chalk from 'chalk'
 import Queue from 'queue-async'
 import mkdirp from 'mkdirp'
 import inflection from 'inflection'
