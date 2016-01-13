@@ -2,7 +2,7 @@
 
 #### Changes: 
 
-- 0.3.1: controllers auth method fix
+- 0.3.2: controllers auth method fix
 - 0.3.0: controllers auth method allows only GET by default
 - 0.2.0: fixed path to model in controllers
 - 0.1.0: add_model uses PascalCase for class+controller filenames
