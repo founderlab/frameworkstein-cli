@@ -9,7 +9,7 @@ function canAccess(options, callback) {
   if (req.method === 'GET') return callback(null, true)
   if (!user) return callback(null, false)
   if (user.admin || user.get('admin')) return callback(null, true)
-  callback(null, true)
+  callback(null, false)
 }
 
 export default class ${options.class_plural}Controller extends RestController {
