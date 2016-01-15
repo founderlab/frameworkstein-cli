@@ -26,7 +26,7 @@
     "chalk": "^1.1.1",
     "commander": "^2.9.0",
     "inflection": "^1.8.0",
-    "lodash": "^3.10.1",
+    "lodash": "^4.0.0",
     "mkdirp": "^0.5.1",
     "nodegit": "^0.7.0",
     "queue-async": "^1.0.7"
