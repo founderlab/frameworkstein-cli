@@ -1,5 +1,5 @@
 export default () =>
 `export default {
-  created_at: 'Date',
+  created_at: 'DateTime',
 }
 `
