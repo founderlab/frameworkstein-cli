@@ -11,6 +11,6 @@
 
 #### Usage:
 
-`npm i fl-cli`
+`npm i -g fl-cli`
 
 `fl add_model model_name`
