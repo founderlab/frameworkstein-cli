@@ -1,36 +1,52 @@
+import _ from 'lodash' // eslint-disable-line
+import chalk from 'chalk' // eslint-disable-line
 import fs from 'fs'
-import https from 'https'
-import unzip from 'unzip'
+import path from 'path'
+import Queue from 'queue-async'
+import inflection from 'inflection'
+import NodeGit from 'nodegit'
+
+const DEFAULT_NAME = 'FounderLab_replaceme'
+const BASE_REPO_URL = 'git@bitbucket.org:founderlab/fl-base-webapp.git'
+
+function replaceInFile(file_path, replacement_str, callback) {
+  fs.readFile(file_path, (err, contents) => {
+    if (err) return callback(err)
+    const updated_contents = contents.replace(DEFAULT_NAME, replacement_str)
+    fs.writeFile(file_path, updated_contents, callback)
+  })
+}
 
 export default function newApp(_options, callback) {
-  // download
-  // redirected from https://github.com/founderlab/fl-cli/archive/master.zip
   const options = {
-    name: _options.name,
+    plural: inflection.pluralize(_options.name),
+    safe_name: _options.name.replace('.', '_'),       // for database urls that may not like the periods (mongo)
     ..._options,
   }
-  const url = 'https://codeload.github.com/founderlab/'+options.name+'/zip/master'
-  const writer = fs.createWriteStream(options.name+'.zip')
+  const app_path = path.join(options.root, options.name)
+  const queue = new Queue(1)
 
-  https.get(url, res => {
-    res.on('data', d =>{
-      writer.write(d)
-    })
-    // unzip to directory named <name>
-    res.on('end', () =>{
-      console.log('--Zip downloaded.')
-      const stream = fs.createReadStream(options.name+'.zip').pipe(unzip.Extract({ path: './' }))
+  queue.defer(callback => {
+    const clone = NodeGit.Clone.clone
+    const git_opts = {
+      fetchOpts: {
+        callbacks: {
+          certificateCheck: () => {
+            return 1
+          },
+          credentials: (url, username) => {
+            return NodeGit.Cred.sshKeyFromAgent(username)
+          },
+        },
+      },
+    }
+    clone(BASE_REPO_URL, app_path, git_opts)
+      .then(callback)
+      .catch(err => callback(err))
+  })
 
-      stream.on('close', ()=>{
-        console.log('--Zip extracted to folder '+options.name+'-master.')
-
-        //should i check if there is a folder of that name exists? if so delete it?
-        fs.rename('./'+options.name+'-master', './'+options.name, err => {
-          if (err) {
-          	// should i unlink folder fl-cli-master and file fl-cli.zip?
-            return callback(err)
-          }
-          console.log('--Folder renamed to '+options.name+'.')
+  queue.defer(callback => replaceInFile(path.join(app_path, 'package.json'), options.name, callback))
+  queue.defer(callback => replaceInFile(path.join(app_path, '.env'), options.safe_name, callback))
 
   queue.await(callback)
 
