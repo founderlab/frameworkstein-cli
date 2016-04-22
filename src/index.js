@@ -4,8 +4,7 @@ import program from 'commander'
 import path from 'path'
 import fs from 'fs'
 import chalk from 'chalk'
-import https from 'https'
-import unzip from 'unzip'
+
 
 program
   .version('0.0.1')
@@ -46,27 +45,11 @@ program
 
     console.log(`Creating new app ${chalk.green(name)} with options`, options)
 
-    // download
-    // redirected from https://github.com/founderlab/fl-cli/archive/master.zip
-    var url = 'https://codeload.github.com/founderlab/'+name+'/zip/master'
-    var writer = fs.createWriteStream(name+'.zip');
-    https.get(url, (res) => {
-      res.on('data', (d) => {
-        writer.write(d);
-      });// end of res.on data
+    require('./commands/newApp')(options, err => {
+      if (err) return console.log(chalk.red(err.message))
+      console.log(chalk.green('done'))
+    })
 
-      // unzip to directory named <name>
-      res.on('end', function(){
-        console.log('--Zip downloaded.');
-        var stream = fs.createReadStream(name+'.zip').pipe(unzip.Extract({ path: './' }));
-        console.log('--Zip extracted to folder '+name+'-master.');
-        stream.on('close',function(){
-            fs.rename('./'+name+'-master', './'+name,(e)=>{});
-            console.log('--Folder renamed to '+name+'.');
-        })// end of stream.on close
-      });// end of res.on end
-
-    })// end of https.get
   })
 
 program.parse(process.argv)
