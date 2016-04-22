@@ -32,14 +32,6 @@ export default function newApp(_options, callback) {
           }
           console.log('--Folder renamed to '+options.name+'.')
 
-          fs.unlink('./'+options.name+'.zip', err => {
-            if (err) return callback(err)
-            console.log('--Zip deleted.')
-            callback(null)
-          })
-        })
-      })
-    })
-  })
+  queue.await(callback)
 
 }
