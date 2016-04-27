@@ -14,3 +14,4 @@
 `npm i -g fl-cli`
 
 `fl add_model model_name`
+`fl new app_name`
