@@ -30,6 +30,7 @@
     "mkdirp": "^0.5.1",
     "nodegit": "^0.7.0",
     "queue-async": "^1.0.7",
+    "rimraf": "^2.5.2",
     "unzip": "^0.1.11"
   },
   "devDependencies": {
