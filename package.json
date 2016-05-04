@@ -1,10 +1,11 @@
 {
-  "name": "fl-cli",
-  "version": "0.3.3",
-  "description": "FounderLab command line interface",
+  "name": "frameworkstein",
+  "version": "0.5.0",
+  "description": "FounderLab command line interface and amalgamation of packages",
   "preferGlobal": true,
   "bin": {
-    "fl": "lib/index.js"
+    "fl": "lib/index.js",
+    "stein": "lib/index.js"
   },
   "author": {
     "name": "Gwilym Humphreys",
@@ -13,7 +14,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/founderlab/fl-cli"
+    "url": "https://github.com/founderlab/frameworkstein"
   },
   "scripts": {
     "start": "./src/index.js",
@@ -30,6 +31,9 @@
     "mkdirp": "^0.5.1",
     "nodegit": "^0.7.0",
     "queue-async": "^1.0.7"
+  },
+  "// wouldBePeerDependencies": {
+
   },
   "devDependencies": {
     "babel": "^5.6.14",
