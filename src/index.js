@@ -43,10 +43,11 @@ program
     const options = {name, root: process.cwd(), force: program.force, verbose: program.verbose}
 
     console.log(`Creating new app ${chalk.green(name)} with options`, options)
+    require('./commands/newApp')(options, err => {
+      if (err) return console.log(chalk.red(err.message))
+      console.log(chalk.green('done'))
+    })
 
-
-    // download https://github.com/founderlab/fl-cli/archive/master.zip
-    // unzip to directory named <name>
 
   })
 
