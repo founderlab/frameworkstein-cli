@@ -14,6 +14,8 @@ program
 program
   .command('create_model <name>')
   .alias('add_model')
+  .alias('model')
+  .alias('m')
   .description('Create a new model in the current app')
   .action(name => {
 
