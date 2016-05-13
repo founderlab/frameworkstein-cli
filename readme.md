@@ -11,10 +11,8 @@
 
 #### Usage:
 
-`npm i -g frameworkstein`
+`npm i -g fl-cli`
 
 `fl add_model model_name`
 
-`fl new-web app_name`
-
-`fl new-mobile app_name`
+`fl new app_name`
