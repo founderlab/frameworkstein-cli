@@ -13,19 +13,24 @@ program
 
 program
   .command('create_model <name>')
-  .alias('add_model')
+  // .alias('create-model')
+  // .alias('createmodel')
+  // .alias('add_model')
+  // .alias('add-model')
+  // .alias('addmodel')
+  // .alias('model')
+  .alias('m')
   .description('Create a new model in the current app')
   .action(name => {
-
     const options = {name, root: process.cwd(), force: program.force, verbose: program.verbose}
 
-    if (
-      !options.force && (
-      !fs.existsSync(path.resolve(process.cwd(), 'client')) ||
-      !fs.existsSync(path.resolve(process.cwd(), 'server')) ||
-      !fs.existsSync(path.resolve(process.cwd(), 'shared')))) {
-      return console.log(chalk.red(`This command should be run from the root directory of FounderLab web apps`))
-    }
+    // if (
+    //   !options.force && (
+    //   !fs.existsSync(path.resolve(process.cwd(), 'client')) ||
+    //   !fs.existsSync(path.resolve(process.cwd(), 'server')) ||
+    //   !fs.existsSync(path.resolve(process.cwd(), 'shared')))) {
+    //   return console.log(chalk.red(`This command should be run from the root directory of FounderLab web apps`))
+    // }
 
     console.log(`Creating model ${chalk.green(name)} with options`, options)
     require('./commands/createModel')(options, err => {

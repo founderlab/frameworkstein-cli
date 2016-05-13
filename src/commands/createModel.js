@@ -13,22 +13,23 @@ import createSharedSchema from '../templates/shared/schema'
 export default function createModel(_options, callback) {
   const options = {
     plural: inflection.pluralize(_options.name),
-    class_name: inflection.classify(_options.name),
+    className: inflection.classify(_options.name),
+    tableName: inflection.tableize(_options.name),
     ..._options,
   }
-  options.class_plural = inflection.pluralize(options.class_name)
+  options.classPlural = inflection.pluralize(options.className)
 
   const output = {
     server_model: {
-      path: path.join(options.root, `server/models/${options.class_name}.js`),
+      path: path.join(options.root, `server/models/${options.className}.js`),
       content: createServerModel(options),
     },
     server_controller: {
-      path: path.join(options.root, `server/api/controllers/${options.class_plural}.js`),
+      path: path.join(options.root, `server/api/controllers/${options.classPlural}.js`),
       content: createServerController(options),
     },
     shared_model: {
-      path: path.join(options.root, `shared/models/${options.class_name}.js`),
+      path: path.join(options.root, `shared/models/${options.className}.js`),
       content: createSharedModel(options),
     },
     shared_schema: {
