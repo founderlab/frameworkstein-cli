@@ -1,8 +1,6 @@
 #! /usr/bin/env babel-node
 
 import program from 'commander'
-import path from 'path'
-import fs from 'fs'
 import chalk from 'chalk'
 
 program
@@ -40,15 +38,16 @@ program
   })
 
 program
-  .command('new <name>')
-  .description('Create a new app')
+  .command('new-web <name>')
+  .alias('new')
+  .description('Create a new web app')
   .option('-t, --type', 'Type')
   .action(name => {
 
     const options = {name, root: process.cwd(), force: program.force, verbose: program.verbose}
 
-    console.log(`Creating new app ${chalk.green(name)} with options`, options)
-    require('./commands/newApp')(options, err => {
+    console.log(`Creating new web app ${chalk.green(name)} with options`, options)
+    require('./commands/newWeb')(options, err => {
       if (err) return console.log(chalk.red(err.message))
       console.log(chalk.green('done'))
     })
@@ -56,4 +55,22 @@ program
 
   })
 
+program
+  .command('new-mobile <name>')
+  .description('Create a new mobile app')
+  .option('-t, --type', 'Type')
+  .action(name => {
+
+    const options = {name, root: process.cwd(), force: program.force, verbose: program.verbose}
+
+    console.log(`Creating new mobile app ${chalk.green(name)} with options`, options)
+    require('./commands/newMobile')(options, err => {
+      if (err) return console.log(chalk.red(err.message))
+      console.log(chalk.green('done'))
+    })
+
+  })
+
+
 program.parse(process.argv)
+
