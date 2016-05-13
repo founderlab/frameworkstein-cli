@@ -18,7 +18,7 @@ export default function createModel(_options, callback) {
     ..._options,
   }
   options.classPlural = inflection.pluralize(options.className)
-console.log('options',options)
+
   const output = {
     server_model: {
       path: path.join(options.root, `server/models/${options.className}.js`),
