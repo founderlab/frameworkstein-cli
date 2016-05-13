@@ -4,6 +4,34 @@ import unzip from 'unzip'
 import rimraf from 'rimraf'
 import Queue from 'queue-async'
 
+// redirected from https://github.com/founderlab/fl-base-webapp/archive/master.zip
+const REPO_ZIP_URL = 'https://codeload.github.com/founderlab/fl-base-webapp/zip/master'
+
+function replaceString(fileName, oldStr, newStr, callback) {
+  fs.access(fileName, fs.W_OK|fs.R_OK, err => {
+    if (err) return callback(new Error(`String replacement failure: ${err}`))
+
+    fs.readFile(fileName, (err, data) => { //read old file
+      if (err) return callback(new Error(`String replacement failure: ${err}`))
+      const txt = data.toString()
+      const replacedTxt = txt.replace(oldStr, newStr)
+
+      fs.writeFile(fileName+'_tmp', replacedTxt, err => { //write tmp file
+        if (err) return callback(new Error(`String replacement failure: ${err}`))
+
+        fs.unlink(fileName, err => { //delete old file
+          if (err) return callback(new Error(`String replacement failure: ${err}`))
+
+          fs.rename(fileName+'_tmp', fileName, err => { // rename tmp file
+            if (err) return callback(new Error(`String replacement failure: ${err}`))
+            return callback(null)
+          })
+        })
+      })
+    })
+  })
+}
+
 export default function newApp(_options, _callback) {
 
   const options = {
@@ -14,8 +42,6 @@ export default function newApp(_options, _callback) {
   const zipFile = 'fl-base-webapp.zip'
   const oldFolder = 'fl-base-webapp-master'
   const newFolder = options.name
-  // redirected from https://github.com/founderlab/fl-cli/archive/master.zip
-  const url = 'https://codeload.github.com/founderlab/fl-base-webapp/zip/master'
   const writer = fs.createWriteStream(zipFile)
   const pkgPath = newFolder+'/package.json'
   const envPath = newFolder+'/.env'
@@ -47,7 +73,7 @@ export default function newApp(_options, _callback) {
       })
     })
 
-    if (err && err.message === 'replacement failure') {
+    if (err && err.message === `String replacement failure: ${err}`) {
       queue.defer(callback => { // delete new folder
         fs.access(newFolder, fs.F_OK, err => {
           if (err) return callback(err) // otherwise delete the old folder
@@ -63,35 +89,8 @@ export default function newApp(_options, _callback) {
     queue.await(_callback)
   }
 
-  function replaceString(fileName, oldStr, newStr, callback) {
-
-    fs.access(fileName, fs.W_OK|fs.R_OK, err => {
-      if (err) return callback(new Error('replacement failure'))
-
-      fs.readFile(fileName, (err, data) => { //read old file
-        if (err) return callback(new Error('replacement failure'))
-        const txt = data.toString()
-        const replacedTxt = txt.replace(oldStr, newStr)
-
-        fs.writeFile(fileName+'_tmp', replacedTxt, err => { //write tmp file
-          if (err) return callback(new Error('replacement failure'))
-
-          fs.unlink(fileName, err => { //delete old file
-            if (err) return callback(new Error('replacement failure'))
-
-            fs.rename(fileName+'_tmp', fileName, err => { // rename tmp file
-              if (err) return callback(new Error('replacement failure'))
-              if (options.verbose) console.log('--'+fileName+' modified.')
-              return callback(null)
-            })
-          })
-        })
-      })
-    })
-  }
-
   // download, unzip, rename
-  https.get(url, res => {
+  https.get(REPO_ZIP_URL, res => {
     res.on('data', d => writer.write(d))
 
     res.on('end', () => {
@@ -106,12 +105,23 @@ export default function newApp(_options, _callback) {
           if (options.verbose) console.log('--Folder renamed to '+ newFolder + '.')
           const queue = new Queue()
 
-          queue.defer(callback => //modify package.json
-            replaceString(pkgPath, /FounderLab_replaceme/g, options.name, callback)
-          )
-          queue.defer(callback => //modify .env
-            replaceString(envPath, /FounderLab_replaceme/g, options.name.toLowerCase().replace(/\W/g, '_'), callback)
-          )
+          // modify package.json
+          queue.defer(callback => {
+            replaceString(pkgPath, /FounderLab_replaceme/g, options.name, err => {
+              if (err) return callback(err)
+              if (options.verbose) console.log('--'+fileName+' modified.')
+              callback()
+            })
+          })
+
+          //modify .env
+          queue.defer(callback => {
+            replaceString(envPath, /FounderLab_replaceme/g, options.name.toLowerCase().replace(/\W/g, '_'), err => {
+              if (err) return callback(err)
+              if (options.verbose) console.log('--'+fileName+' modified.')
+              callback()
+            })
+          })
 
           queue.await(callback)
         })

@@ -12,7 +12,7 @@ function canAccess(options, callback) {
   callback(null, false)
 }
 
-export default class ${options.class_plural}Controller extends RestController {
+export default class ${options.classPlural}Controller extends RestController {
   constructor(options) {
     super(options.app, _.defaults({
       model_type: require('../../models/${options.className}'),

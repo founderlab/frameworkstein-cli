@@ -14,10 +14,11 @@ export default function createModel(_options, callback) {
   const options = {
     plural: inflection.pluralize(_options.name),
     className: inflection.classify(_options.name),
+    tableName: inflection.tableize(_options.name),
     ..._options,
   }
-  options.class_plural = inflection.pluralize(options.className)
-
+  options.classPlural = inflection.pluralize(options.className)
+console.log('options',options)
   const output = {
     server_model: {
       path: path.join(options.root, `server/models/${options.className}.js`),
