@@ -35,35 +35,19 @@ program
   })
 
 program
-  .command('new-web <name>')
-  .alias('new')
-  .description('Create a new web app')
+  .command('new <name>')
+  .description('Create a new app')
   .option('-t, --type', 'Type')
   .action(name => {
 
     const options = {name, root: process.cwd(), force: program.force, verbose: program.verbose}
 
-    console.log(`Creating new web app ${chalk.green(name)} with options`, options)
-    require('./commands/newWeb')(options, err => {
+    console.log(`Creating new app ${chalk.green(name)} with options`, options)
+    require('./commands/newApp')(options, err => {
       if (err) return console.log(chalk.red(err.message))
       console.log(chalk.green('done'))
     })
 
-  })
-
-program
-  .command('new-mobile <name>')
-  .description('Create a new mobile app')
-  .option('-t, --type', 'Type')
-  .action(name => {
-
-    const options = {name, root: process.cwd(), force: program.force, verbose: program.verbose}
-
-    console.log(`Creating new mobile app ${chalk.green(name)} with options`, options)
-    require('./commands/newMobile')(options, err => {
-      if (err) return console.log(chalk.red(err.message))
-      console.log(chalk.green('done'))
-    })
 
   })
 
