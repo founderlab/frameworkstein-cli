@@ -24,6 +24,7 @@
     "test": "eval $(cat test/.env) mocha test/**/*.tests.js"
   },
   "dependencies": {
+    "babel-runtime": "^6.6.1",
     "chalk": "^1.1.1",
     "commander": "^2.9.0",
     "inflection": "^1.8.0",

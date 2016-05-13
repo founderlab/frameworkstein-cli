@@ -20,7 +20,7 @@ export default function createModel(_options, callback) {
 
   const output = {
     server_model: {
-      path: path.join(options.root, `server/models/${options.class_name}.js`),
+      path: path.join(options.root, `server/models/${options.className}.js`),
       content: createServerModel(options),
     },
     server_controller: {

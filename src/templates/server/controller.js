@@ -15,7 +15,7 @@ function canAccess(options, callback) {
 export default class ${options.class_plural}Controller extends RestController {
   constructor(options) {
     super(options.app, _.defaults({
-      model_type: require('../../models/${options.class_name}'),
+      model_type: require('../../models/${options.className}'),
       route: '/api/${options.plural}',
       auth: [...options.auth, createAuthMiddleware({canAccess})],
       whitelist: {

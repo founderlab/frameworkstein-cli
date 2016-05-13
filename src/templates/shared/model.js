@@ -4,7 +4,7 @@ export default options =>
 import moment from 'moment'
 import Backbone from 'backbone'
 
-export default class ${options.class_name} extends Backbone.Model {
+export default class ${options.className} extends Backbone.Model {
   schema = () => _.extend({
 
   }, require('./schemas/${options.name}'))
@@ -12,6 +12,6 @@ export default class ${options.class_name} extends Backbone.Model {
   defaults() { return {created_at: moment.utc().toDate()} }
 }
 
-${options.class_name}.prototype.urlRoot = '/api/${options.plural}'
-${options.class_name}.prototype.sync = require('backbone-http').sync(${options.class_name})
+${options.className}.prototype.urlRoot = '/api/${options.plural}'
+${options.className}.prototype.sync = require('backbone-http').sync(${options.className})
 `

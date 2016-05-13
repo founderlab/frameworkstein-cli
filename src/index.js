@@ -13,12 +13,15 @@ program
 
 program
   .command('create_model <name>')
-  .alias('add_model')
-  .alias('model')
-  .alias('m')
+  .alias('create-model <name>')
+  .alias('createmodel <name>')
+  .alias('add_model <name>')
+  .alias('add-model <name>')
+  .alias('addmodel <name>')
+  .alias('model <name>')
+  .alias('m <name>')
   .description('Create a new model in the current app')
   .action(name => {
-
     const options = {name, root: process.cwd(), force: program.force, verbose: program.verbose}
 
     if (
