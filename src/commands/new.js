@@ -35,7 +35,7 @@ export default function newApp(_options, _callback) {
     ..._options,
   }
 
-  const repoName = type === 'mobile' ? 'fl-base-mobile-app' : 'fl-base-webapp'
+  const repoName = options.type === 'mobile' ? 'fl-base-mobile-app' : 'fl-base-webapp'
   const repoZipUrl = `https://codeload.github.com/founderlab/${repoName}/zip/master`
 
   const zipFilename = `${repoName}.zip`
