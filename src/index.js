@@ -22,13 +22,13 @@ program
   .action(name => {
     const options = {name, root: process.cwd(), force: program.force, verbose: program.verbose}
 
-    // if (
-    //   !options.force && (
-    //   !fs.existsSync(path.resolve(process.cwd(), 'client')) ||
-    //   !fs.existsSync(path.resolve(process.cwd(), 'server')) ||
-    //   !fs.existsSync(path.resolve(process.cwd(), 'shared')))) {
-    //   return console.log(chalk.red(`This command should be run from the root directory of FounderLab web apps`))
-    // }
+    if (
+      !options.force && (
+      !fs.existsSync(path.resolve(process.cwd(), 'client')) ||
+      !fs.existsSync(path.resolve(process.cwd(), 'server')) ||
+      !fs.existsSync(path.resolve(process.cwd(), 'shared')))) {
+      return console.log(chalk.red(`This command should be run from the root directory of FounderLab web apps`))
+    }
 
     console.log(`Creating model ${chalk.green(name)} with options`, options)
     require('./commands/createModel')(options, err => {
@@ -44,10 +44,10 @@ program
   .option('-t, --type', 'Type')
   .action(name => {
 
-    const options = {name, root: process.cwd(), force: program.force, verbose: program.verbose}
+    const options = {name, type: 'web', root: process.cwd(), force: program.force, verbose: program.verbose}
 
     console.log(`Creating new web app ${chalk.green(name)} with options`, options)
-    require('./commands/newWeb')(options, err => {
+    require('./commands/new')(options, err => {
       if (err) return console.log(chalk.red(err.message))
       console.log(chalk.green('done'))
     })
@@ -61,10 +61,11 @@ program
   .option('-t, --type', 'Type')
   .action(name => {
 
-    const options = {name, root: process.cwd(), force: program.force, verbose: program.verbose}
+    const options = {name, type: 'mobile', root: process.cwd(), force: program.force, verbose: program.verbose}
 
     console.log(`Creating new mobile app ${chalk.green(name)} with options`, options)
-    require('./commands/newMobile')(options, err => {
+
+    require('./commands/new')(options, err => {
       if (err) return console.log(chalk.red(err.message))
       console.log(chalk.green('done'))
     })

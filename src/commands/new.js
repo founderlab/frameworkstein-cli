@@ -4,9 +4,6 @@ import unzip from 'unzip'
 import rimraf from 'rimraf'
 import Queue from 'queue-async'
 
-// redirected from https://github.com/founderlab/fl-base-webapp/archive/master.zip
-const REPO_ZIP_URL = 'https://codeload.github.com/founderlab/fl-base-webapp/zip/master'
-
 function replaceString(fileName, oldStr, newStr, callback) {
   fs.access(fileName, fs.W_OK|fs.R_OK, err => {
     if (err) return callback(new Error(`String replacement failure: ${err}`))
@@ -32,17 +29,19 @@ function replaceString(fileName, oldStr, newStr, callback) {
   })
 }
 
-export default function newWeb(_options, _callback) {
+export default function newApp(_options, _callback) {
 
   const options = {
-    name: _options.name,
     ..._options,
   }
 
-  const zipFile = 'fl-base-webapp.zip'
-  const oldFolder = 'fl-base-webapp-master'
+  const repoName = type === 'mobile' ? 'fl-base-mobile-app' : 'fl-base-webapp'
+  const repoZipUrl = `https://codeload.github.com/founderlab/${repoName}/zip/master`
+
+  const zipFilename = `${repoName}.zip`
+  const oldFolder = `${repoName}-master`
   const newFolder = options.name
-  const writer = fs.createWriteStream(zipFile)
+  const writer = fs.createWriteStream(zipFilename)
   const pkgPath = newFolder+'/package.json'
   const envPath = newFolder+'/.env'
 
@@ -50,9 +49,9 @@ export default function newWeb(_options, _callback) {
     const queue = new Queue()
 
     queue.defer(callback => { // delete zip
-      fs.access(zipFile, fs.F_OK, err => {
+      fs.access(zipFilename, fs.F_OK, err => {
         if (err) return callback(err)
-        fs.unlink(zipFile, err => {
+        fs.unlink(zipFilename, err => {
           if (err) return callback(err)
           if (options.verbose) console.log('--Zip deleted.')
           callback(null)
@@ -90,12 +89,12 @@ export default function newWeb(_options, _callback) {
   }
 
   // download, unzip, rename
-  https.get(REPO_ZIP_URL, res => {
+  https.get(repoZipUrl, res => {
     res.on('data', d => writer.write(d))
 
     res.on('end', () => {
       if (options.verbose) console.log('--Zip downloaded.')
-      const stream = fs.createReadStream(zipFile).pipe(unzip.Extract({path: './'}))
+      const stream = fs.createReadStream(zipFilename).pipe(unzip.Extract({path: './'}))
 
       stream.on('close', () => {
         if (options.verbose) console.log('--Zip extracted to folder '+ oldFolder + '.')
