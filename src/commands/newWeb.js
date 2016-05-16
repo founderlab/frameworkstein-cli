@@ -32,7 +32,7 @@ function replaceString(fileName, oldStr, newStr, callback) {
   })
 }
 
-export default function newApp(_options, _callback) {
+export default function newWeb(_options, _callback) {
 
   const options = {
     name: _options.name,
