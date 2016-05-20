@@ -2,6 +2,7 @@
 
 import program from 'commander'
 import chalk from 'chalk'
+import fs from 'fs'
 
 program
   .version('0.0.1')
