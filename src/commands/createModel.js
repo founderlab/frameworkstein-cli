@@ -7,33 +7,40 @@ import mkdirp from 'mkdirp'
 import inflection from 'inflection'
 import createServerModel from '../templates/server/model'
 import createServerController from '../templates/server/controller'
+import createServerTemplate from '../templates/server/template'
 import createSharedModel from '../templates/shared/model'
 import createSharedSchema from '../templates/shared/schema'
 
 export default function createModel(_options, callback) {
   const options = {
-    plural: inflection.pluralize(_options.name),
     className: inflection.classify(_options.name),
     tableName: inflection.tableize(_options.name),
+    variableName: inflection.camelize(_options.name, true),
     ..._options,
   }
+  options.plural = inflection.pluralize(options.className)
+  options.variablePlural = inflection.pluralize(options.variableName)
   options.classPlural = inflection.pluralize(options.className)
 
   const output = {
-    server_model: {
+    serverModel: {
       path: path.join(options.root, `server/models/${options.className}.js`),
       content: createServerModel(options),
     },
-    server_controller: {
+    serverController: {
       path: path.join(options.root, `server/api/controllers/${options.classPlural}.js`),
       content: createServerController(options),
     },
-    shared_model: {
+    serverTemplate: {
+      path: path.join(options.root, `server/api/templates/${options.variablePlural}/base.js`),
+      content: createServerTemplate(options),
+    },
+    sharedModel: {
       path: path.join(options.root, `shared/models/${options.className}.js`),
       content: createSharedModel(options),
     },
-    shared_schema: {
-      path: path.join(options.root, `shared/models/schemas/${options.name}.js`),
+    sharedSchema: {
+      path: path.join(options.root, `shared/models/schemas/${options.variableName}.js`),
       content: createSharedSchema(options),
     },
   }

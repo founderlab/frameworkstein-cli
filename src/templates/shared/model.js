@@ -7,7 +7,7 @@ import Backbone from 'backbone'
 export default class ${options.className} extends Backbone.Model {
   schema = () => _.extend({
 
-  }, require('./schemas/${options.name}'))
+  }, require('./schemas/${options.variableName}'))
 
   defaults() { return {created_at: moment.utc().toDate()} }
 }

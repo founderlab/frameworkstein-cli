@@ -12,13 +12,7 @@ program
   .option('-f, --force', 'Force')
 
 program
-  .command('create_model <name>')
-  // .alias('create-model')
-  // .alias('createmodel')
-  // .alias('add_model')
-  // .alias('add-model')
-  // .alias('addmodel')
-  // .alias('model')
+  .command('add-model <name>')
   .alias('m')
   .description('Create a new model in the current app')
   .action(name => {

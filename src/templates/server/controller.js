@@ -18,9 +18,10 @@ export default class ${options.classPlural}Controller extends RestController {
       model_type: require('../../models/${options.className}'),
       route: '/api/${options.plural}',
       auth: [...options.auth, createAuthMiddleware({canAccess})],
-      whitelist: {
-
+      templates: {
+        base: require('../templates/${options.variablePlural}/base'),
       },
+      default_template: 'base',
     }, options))
   }
 }

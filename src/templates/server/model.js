@@ -13,7 +13,7 @@ export default class ${options.className} extends Backbone.Model {
 
   schema = () => _.extend({
 
-  }, require('../../shared/models/schemas/${options.name}'))
+  }, require('../../shared/models/schemas/${options.variableName}'))
 
   defaults() { return {created_at: moment.utc().toDate()} }
 }

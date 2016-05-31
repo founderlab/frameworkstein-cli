@@ -42,8 +42,8 @@ export default function newApp(_options, _callback) {
   const oldFolder = `${repoName}-master`
   const newFolder = options.name
   const writer = fs.createWriteStream(zipFilename)
-  const pkgPath = newFolder+'/package.json'
-  const envPath = newFolder+'/.env'
+  const pkgPath = `${newFolder}/package.json`
+  const envPath = `${newFolder}/.env`
 
   function callback(err) {
     const queue = new Queue()
