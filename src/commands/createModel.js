@@ -18,7 +18,6 @@ export default function createModel(_options, callback) {
     variableName: inflection.camelize(_options.name, true),
     ..._options,
   }
-  options.plural = inflection.pluralize(options.className)
   options.variablePlural = inflection.pluralize(options.variableName)
   options.classPlural = inflection.pluralize(options.className)
 

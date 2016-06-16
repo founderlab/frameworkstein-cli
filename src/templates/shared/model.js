@@ -12,6 +12,6 @@ export default class ${options.className} extends Backbone.Model {
   defaults() { return {created_at: moment.utc().toDate()} }
 }
 
-${options.className}.prototype.urlRoot = '/api/${options.plural}'
+${options.className}.prototype.urlRoot = '/api/${options.tableName}'
 ${options.className}.prototype.sync = require('backbone-http').sync(${options.className})
 `

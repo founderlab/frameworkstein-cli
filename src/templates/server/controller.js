@@ -16,7 +16,7 @@ export default class ${options.classPlural}Controller extends RestController {
   constructor(options) {
     super(options.app, _.defaults({
       model_type: require('../../models/${options.className}'),
-      route: '/api/${options.plural}',
+      route: '/api/${options.tableName}',
       auth: [...options.auth, createAuthMiddleware({canAccess})],
       templates: {
         base: require('../templates/${options.variablePlural}/base'),
