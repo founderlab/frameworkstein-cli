@@ -6,7 +6,7 @@ import schema from '../../../../shared/models/schemas/${options.variableName}'
 export default {
   $select: [
     'id',
-    ..._.keys(schema)
+    ..._.keys(schema),
   ],
 }
 `
