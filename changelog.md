@@ -2,6 +2,9 @@
 ## [Unreleased]
   
 
+## [1.0.6]
+  - Updated some templates. The `created_at` default is now `createdDate`
+
 ## [1.0.4]
   - Add model command updated to include a base template
 
