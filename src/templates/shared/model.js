@@ -9,7 +9,7 @@ export default class ${options.className} extends Backbone.Model {
 
   }, require('./schemas/${options.variableName}'))
 
-  defaults() { return {created_at: moment.utc().toDate()} }
+  defaults() { return {createdDate: moment.utc().toDate()} }
 }
 
 ${options.className}.prototype.urlRoot = '/api/${options.tableName}'

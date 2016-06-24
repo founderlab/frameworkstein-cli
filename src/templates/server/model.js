@@ -15,7 +15,7 @@ export default class ${options.className} extends Backbone.Model {
 
   }, require('../../shared/models/schemas/${options.variableName}'))
 
-  defaults() { return {created_at: moment.utc().toDate()} }
+  defaults() { return {createdDate: moment.utc().toDate()} }
 }
 
 ${options.className}.prototype.sync = smartSync(dbUrl, ${options.className})
