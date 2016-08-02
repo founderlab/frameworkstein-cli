@@ -53,8 +53,10 @@ export default function createModel(_options, callback) {
     queue.defer(callback => {
       mkdirp(path.dirname(out.path), err => {
         if (err) return callback(err)
+        console.log(' ', chalk.green('Creating file:'), out.path)
         if (options.verbose) {
-          console.log('writing:', out.path, out.content)
+          console.log('---------------------')
+          console.log(chalk.yellow(out.content))
           console.log('---------------------')
         }
         fs.writeFile(out.path, out.content, callback)

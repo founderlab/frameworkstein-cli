@@ -26,7 +26,7 @@ program
       return console.log(chalk.red(`This command should be run from the root directory of FounderLab web apps`))
     }
 
-    console.log(`Creating model ${chalk.green(name)} with options`, options)
+    console.log(`Creating model ${chalk.blue(name)} with options`, options)
     require('./commands/createModel')(options, err => {
       if (err) return console.log(chalk.red(err.message))
       console.log(chalk.green('done'))
