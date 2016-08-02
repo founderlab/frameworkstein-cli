@@ -42,8 +42,11 @@ export default function newApp(_options, _callback) {
   const oldFolder = `${repoName}-master`
   const newFolder = options.name
   const writer = fs.createWriteStream(zipFilename)
-  const pkgPath = `${newFolder}/package.json`
-  const envPath = `${newFolder}/.env`
+  const replace = [
+    {filePath: `${newFolder}/shared/modules/app/containers/Navbar.js`, name: options.name},
+    {filePath: `${newFolder}/package.json`, name: options.name},
+    {filePath: `${newFolder}/.env`, name: options.name.toLowerCase().replace(/\W/g, '_')},
+  ]
 
   function callback(err) {
     const queue = new Queue()
@@ -104,21 +107,14 @@ export default function newApp(_options, _callback) {
           if (options.verbose) console.log('--Folder renamed to '+ newFolder + '.')
           const queue = new Queue()
 
-          // modify package.json
-          queue.defer(callback => {
-            replaceString(pkgPath, /FounderLab_replaceme/g, options.name, err => {
-              if (err) return callback(err)
-              if (options.verbose) console.log('--'+fileName+' modified.')
-              callback()
-            })
-          })
-
-          //modify .env
-          queue.defer(callback => {
-            replaceString(envPath, /FounderLab_replaceme/g, options.name.toLowerCase().replace(/\W/g, '_'), err => {
-              if (err) return callback(err)
-              if (options.verbose) console.log('--'+fileName+' modified.')
-              callback()
+          // Set the app name in a few files
+          replace.forEach(({filePath, name}) => {
+            queue.defer(callback => {
+              replaceString(filePath, /FounderLab_replaceme/g, name, err => {
+                if (err) return callback(err)
+                if (options.verbose) console.log('--' + filePath + ' modified.')
+                callback()
+              })
             })
           })
 
