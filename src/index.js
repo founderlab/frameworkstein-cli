@@ -39,15 +39,14 @@ program
   .description('Create a new web app')
   .option('-t, --type', 'Type')
   .action(name => {
-
     const options = {name, type: 'web', root: process.cwd(), force: program.force, verbose: program.verbose}
 
     console.log(`Creating new web app ${chalk.green(name)} with options`, options)
+
     require('./commands/new')(options, err => {
       if (err) return console.log(chalk.red(err.message))
       console.log(chalk.green('done'))
     })
-
 
   })
 
@@ -56,7 +55,6 @@ program
   .description('Create a new mobile app')
   .option('-t, --type', 'Type')
   .action(name => {
-
     const options = {name, type: 'mobile', root: process.cwd(), force: program.force, verbose: program.verbose}
 
     console.log(`Creating new mobile app ${chalk.green(name)} with options`, options)
@@ -70,4 +68,3 @@ program
 
 
 program.parse(process.argv)
-
