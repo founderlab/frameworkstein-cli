@@ -2,6 +2,9 @@
 ## [Unreleased]
   
 
+## [1.1.0]
+  - Controller template uses `fl-backbone-rest`
+
 ## [1.0.6]
   - Updated some templates. The `created_at` default is now `createdDate`
 
