@@ -1,7 +1,7 @@
 
 export default options =>
 `import _ from 'lodash' // eslint-disable-line
-import RestController from 'backbone-rest'
+import RestController from 'fl-backbone-rest'
 import {createAuthMiddleware} from 'fl-auth-server'
 
 function canAccess(options, callback) {
