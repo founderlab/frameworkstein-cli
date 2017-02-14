@@ -2,6 +2,9 @@
 ## [Unreleased]
   
 
+## [1.1.3]
+  - Updated controller template
+
 ## [1.1.0]
   - Controller template uses `fl-backbone-rest`
 
