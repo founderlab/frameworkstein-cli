@@ -14,15 +14,15 @@ const whitelist = [
 
 export function canAccess(options, callback) {
   const {user, req} = options
-  if (!user) return callback(null, false)
-  if (user.admin) return callback(null, true)
-  if (req.method === 'GET') return callback(null, true)
+  if (user && user.admin) return callback(null, true)
 
+  // Don't allow inclusion of related models by default
   const query = JSONUtils.parseQuery(req.query)
   if (query.$include) return callback(null, false, 'No $include')
 
-  // Check if the current user is authorised to edit this model
-  // const id = req.params.id
+  if (req.method === 'GET') return callback(null, true)
+
+  // Check if the current user is authorised to edit this model here
 
   callback(null, false)
 }
